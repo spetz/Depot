@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Depot.Messages.Commands;
 using Depot.Services.Entries.Framework;
 using Depot.Services.Entries.Handlers;
+using Depot.Services.Entries.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RawRabbit;
 using RawRabbit.vNext;
 
@@ -33,7 +35,9 @@ namespace Depot.Services.Entries
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                    .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
+            services.AddScoped<IEntryRepository, EntryRepository>();
             ConfigureRabbitMqServices(services);
         }
 

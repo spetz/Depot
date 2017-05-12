@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Depot.Api.Framework;
 using Depot.Api.Handlers;
+using Depot.Api.Repositories;
 using Depot.Messages.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +34,9 @@ namespace Depot.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                    .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
+            services.AddScoped<ILogRepository, LogRepository>();
             ConfigureRabbitMqServices(services);
         }
 
