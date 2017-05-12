@@ -9,7 +9,7 @@ namespace Depot.Messages.Events
         {
         }
 
-        protected CreateEntryRejected(string key, string reason)
+        public CreateEntryRejected(string key, string reason)
         {
             Key = key;
             Reason = reason;

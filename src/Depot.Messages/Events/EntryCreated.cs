@@ -8,7 +8,7 @@ namespace Depot.Messages.Events
         {
         }
 
-        protected EntryCreated(string key)
+        public EntryCreated(string key)
         {
             Key = key;
         }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Depot.Messages.Commands;
 using Depot.Services.Entries.Framework;
+using Depot.Services.Entries.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,7 @@ namespace Depot.Services.Entries
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            ConfigureRabbitMqSubscriptions(app);
             app.UseMvc();
         }
 
@@ -53,6 +56,15 @@ namespace Depot.Services.Entries
             var rabbitMqClient = BusClientFactory.CreateDefault(rabbitMqOptions);
             services.Configure<RabbitMqOptions>(rabbitMqOptionsSection);
             services.AddSingleton<IBusClient>(_ => rabbitMqClient);
+            services.AddScoped<ICommandHandler<CreateEntry>, CreateEntryHandler>();
+        }
+
+        private void ConfigureRabbitMqSubscriptions(IApplicationBuilder app)
+        {
+            var rabbitMqClient = app.ApplicationServices.GetService<IBusClient>();
+            var createEntryHandler = app.ApplicationServices.GetService<ICommandHandler<CreateEntry>>();
+            rabbitMqClient.SubscribeAsync<CreateEntry>(async (msg, context) 
+                => await createEntryHandler.HandleAsync(msg));          
         }
     }
 }

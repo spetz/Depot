@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Depot.Api.Framework;
+using Depot.Api.Handlers;
+using Depot.Messages.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,7 @@ namespace Depot.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            ConfigureRabbitMqSubscriptions(app);
             app.UseMvc();
         }
 
@@ -49,10 +52,23 @@ namespace Depot.Api
             var rabbitMqOptions = new RabbitMqOptions();
             var rabbitMqOptionsSection = Configuration.GetSection("rabbitmq");
             rabbitMqOptionsSection.Bind(rabbitMqOptions);
-            
+
             var rabbitMqClient = BusClientFactory.CreateDefault(rabbitMqOptions);
             services.Configure<RabbitMqOptions>(rabbitMqOptionsSection);
             services.AddSingleton<IBusClient>(_ => rabbitMqClient);
+            services.AddScoped<IEventHandler<EntryCreated>, EntryCreatedHandler>();
+            services.AddScoped<IEventHandler<CreateEntryRejected>, CreateEntryRejectedHandler>();
+        }
+
+        private void ConfigureRabbitMqSubscriptions(IApplicationBuilder app)
+        {
+            var rabbitMqClient = app.ApplicationServices.GetService<IBusClient>();
+            var entryCreatedHandler = app.ApplicationServices.GetService<IEventHandler<EntryCreated>>();
+            var createEntryRejectedHandler = app.ApplicationServices.GetService<IEventHandler<CreateEntryRejected>>();
+            rabbitMqClient.SubscribeAsync<EntryCreated>(async (msg, context) 
+                => await entryCreatedHandler.HandleAsync(msg));   
+            rabbitMqClient.SubscribeAsync<CreateEntryRejected>(async (msg, context) 
+                => await createEntryRejectedHandler.HandleAsync(msg));   
         }
     }
 }
