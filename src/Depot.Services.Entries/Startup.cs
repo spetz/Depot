@@ -43,6 +43,7 @@ namespace Depot.Services.Entries
                     .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
             // services.AddScoped<IEntryRepository, EntryRepository>();
             ConfigureRabbitMqServices(services);
+            ConfigureRedis(services);
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -95,6 +96,20 @@ namespace Depot.Services.Entries
             builder.RegisterType<MongoEntryRepository>()
                 .As<IEntryRepository>()
                 .InstancePerLifetimeScope();
+        }
+
+        private void ConfigureRedis(IServiceCollection services)
+        {
+            var optionsSection = Configuration.GetSection("redis");
+            var options = new RedisOptions();
+            optionsSection.Bind(options);
+            services.Configure<RedisOptions>(optionsSection);
+
+            services.AddDistributedRedisCache(x => 
+            {
+                x.Configuration = options.ConnectionString;
+                x.InstanceName = options.Instance;
+            });
         }
     }
 }
