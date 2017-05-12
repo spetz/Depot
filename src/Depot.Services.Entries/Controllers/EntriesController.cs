@@ -18,20 +18,21 @@ namespace Depot.Services.Entries.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Get()
-            => Json(await Task.FromResult(_repository.Entries.Select(x => x.Key)));    
+        {
+            var entries = await _repository.BrowseAsync();
+
+            return Json(entries.Select(x => x.Key)); 
+        }
 
         [HttpGet("{key}")]
         public async Task<IActionResult> Get(string key)
         {
-            var entry = _repository.Entries
-                .SingleOrDefault(x => x.Key == key.Trim().ToLowerInvariant());
-            
+            var entry = await _repository.GetAsync(key);
             if(entry == null)
             {
                 return NotFound();
             }
-
-            return Json(await Task.FromResult(entry.Value));
+            return Json(entry.Value);
         }            
     }
 }

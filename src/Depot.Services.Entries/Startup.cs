@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using RawRabbit;
 using RawRabbit.vNext;
@@ -40,11 +41,12 @@ namespace Depot.Services.Entries
             // Add framework services.
             services.AddMvc()
                     .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
-            services.AddScoped<IEntryRepository, EntryRepository>();
+            // services.AddScoped<IEntryRepository, EntryRepository>();
             ConfigureRabbitMqServices(services);
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
+            ConfigureMongoDb(builder);
             Container = builder.Build();
 
             return new AutofacServiceProvider(Container);
@@ -57,6 +59,7 @@ namespace Depot.Services.Entries
             loggerFactory.AddDebug();
 
             ConfigureRabbitMqSubscriptions(app);
+            MongoConfigurator.Initialize();
             app.UseMvc();
         }
 
@@ -78,6 +81,20 @@ namespace Depot.Services.Entries
             var createEntryHandler = app.ApplicationServices.GetService<ICommandHandler<CreateEntry>>();
             rabbitMqClient.SubscribeAsync<CreateEntry>(async (msg, context) 
                 => await createEntryHandler.HandleAsync(msg));          
+        }
+
+        private void ConfigureMongoDb(ContainerBuilder builder)
+        {
+            var optionsSection = Configuration.GetSection("mongo");
+            var options = new MongoOptions();
+            optionsSection.Bind(options);
+            builder.RegisterInstance(options).SingleInstance();
+
+            var mongoClient = new MongoClient(options.ConnectionString);
+            builder.RegisterInstance(mongoClient.GetDatabase(options.Database));
+            builder.RegisterType<MongoEntryRepository>()
+                .As<IEntryRepository>()
+                .InstancePerLifetimeScope();
         }
     }
 }

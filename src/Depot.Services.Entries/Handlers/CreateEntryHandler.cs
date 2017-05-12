@@ -27,14 +27,13 @@ namespace Depot.Services.Entries.Handlers
                 await PublishError(command.Key, "Entry key can not be empty.");
                 return;
             }
-            var entry = _repository.Entries.SingleOrDefault(x => 
-                x.Key == command.Key.Trim().ToLowerInvariant());
+            var entry = await _repository.GetAsync(command.Key);
             if(entry != null)
             {
                 await PublishError(command.Key, $"Entry with key: '{command.Key}' already exists.");
                 return;
             }
-            _repository.Entries.Add(new Entry(command.Key, command.Value));
+            await _repository.AddAsync(new Entry(command.Key, command.Value));
             Console.WriteLine($"Created a new entry with key: '{command.Key}'.");
             await _busClient.PublishAsync(new EntryCreated(command.Key));
         }

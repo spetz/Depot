@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.*" />
     <PackageReference Include="RawRabbit" Version="1.*" />
     <PackageReference Include="RawRabbit.vNext" Version="1.*" />   
   </ItemGroup>
