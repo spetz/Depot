@@ -27,7 +27,8 @@ namespace Depot.Services.Entries.Handlers
                 await PublishError(command.Key, "Entry key can not be empty.");
                 return;
             }
-            var entry = _repository.Entries.SingleOrDefault(x => x.Key == command.Key);
+            var entry = _repository.Entries.SingleOrDefault(x => 
+                x.Key == command.Key.Trim().ToLowerInvariant());
             if(entry != null)
             {
                 await PublishError(command.Key, $"Entry with key: '{command.Key}' already exists.");

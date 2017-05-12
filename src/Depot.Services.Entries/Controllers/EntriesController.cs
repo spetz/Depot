@@ -22,9 +22,16 @@ namespace Depot.Services.Entries.Controllers
 
         [HttpGet("{key}")]
         public async Task<IActionResult> Get(string key)
-            => Json(await Task.FromResult(_repository.Entries
-                .Where(x => x.Key == key)
-                .Select(x => x.Value)
-                .SingleOrDefault()));               
+        {
+            var entry = _repository.Entries
+                .SingleOrDefault(x => x.Key == key.Trim().ToLowerInvariant());
+            
+            if(entry == null)
+            {
+                return NotFound();
+            }
+
+            return Json(await Task.FromResult(entry.Value));
+        }            
     }
 }

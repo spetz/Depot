@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Depot.Messages.Commands;
 using Depot.Services.Entries.Framework;
 using Depot.Services.Entries.Handlers;
@@ -19,6 +21,9 @@ namespace Depot.Services.Entries
 {
     public class Startup
     {
+        public IConfigurationRoot Configuration { get; }
+        public IContainer Container { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -29,16 +34,20 @@ namespace Depot.Services.Entries
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddMvc()
                     .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented);
             services.AddScoped<IEntryRepository, EntryRepository>();
             ConfigureRabbitMqServices(services);
+
+            var builder = new ContainerBuilder();
+            builder.Populate(services);
+            Container = builder.Build();
+
+            return new AutofacServiceProvider(Container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

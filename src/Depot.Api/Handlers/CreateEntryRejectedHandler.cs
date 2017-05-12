@@ -19,7 +19,7 @@ namespace Depot.Api.Handlers
 
         public async Task HandleAsync(CreateEntryRejected command)
         {
-            var message = $"Could not create an entry with key: '{command.Key}'. {command.Reason}";
+            var message = $"{DateTime.UtcNow}: Could not create an entry with key: '{command.Key}'. {command.Reason}";
             Console.WriteLine(message);
             _repository.Logs.Add(message);
             await Task.CompletedTask;

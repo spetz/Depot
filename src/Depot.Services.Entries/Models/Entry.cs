@@ -14,7 +14,7 @@ namespace Depot.Services.Entries.Models
 
         public Entry(string key, object value)
         {
-            Key = key;
+            Key = key.Trim().ToLowerInvariant();
             Value = value;
             CreatedAt = DateTime.UtcNow;
         }          

@@ -19,7 +19,7 @@ namespace Depot.Api.Handlers
 
         public async Task HandleAsync(EntryCreated command)
         {
-            var message = $"New entry with key: '{command.Key}' was created.";
+            var message = $"{DateTime.UtcNow}: New entry with key: '{command.Key}' was created.";
             Console.WriteLine(message);
             _repository.Logs.Add(message);
             await Task.CompletedTask;

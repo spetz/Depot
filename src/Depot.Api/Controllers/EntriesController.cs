@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Depot.Messages.Commands;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,10 @@ namespace Depot.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateEntry command)
         {   
+            if(string.IsNullOrWhiteSpace(command.Key))
+            {
+               throw new ArgumentException("Entry key can not be empty.", nameof(command.Key));
+            }
             await _busClient.PublishAsync(command);
 
             return Accepted();
