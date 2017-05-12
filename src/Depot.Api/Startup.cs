@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Depot.Api.Framework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RawRabbit;
+using RawRabbit.vNext;
 
 namespace Depot.Api
 {
@@ -29,6 +32,7 @@ namespace Depot.Api
         {
             // Add framework services.
             services.AddMvc();
+            ConfigureRabbitMqServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +42,17 @@ namespace Depot.Api
             loggerFactory.AddDebug();
 
             app.UseMvc();
+        }
+
+        private void ConfigureRabbitMqServices(IServiceCollection services)
+        {
+            var rabbitMqOptions = new RabbitMqOptions();
+            var rabbitMqOptionsSection = Configuration.GetSection("rabbitmq");
+            rabbitMqOptionsSection.Bind(rabbitMqOptions);
+            
+            var rabbitMqClient = BusClientFactory.CreateDefault(rabbitMqOptions);
+            services.Configure<RabbitMqOptions>(rabbitMqOptionsSection);
+            services.AddSingleton<IBusClient>(_ => rabbitMqClient);
         }
     }
 }
