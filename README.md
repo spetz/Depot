@@ -1,4 +1,4 @@
-# Depot is a sample distributed application (API + Service) using MongoDB, RabbitMQ, Redis and built with .NET Core.
+# Depot is a sample distributed app (API + Service) using MongoDB, RabbitMQ, Redis & built with .NET Core.
 
 In order to start the application type the following commands:
 

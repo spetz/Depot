@@ -1,5 +1,4 @@
 #!/bin/bash
-
 PROJECTS=(src/Depot.Api src/Depot.Services.Entries tests/Depot.Tests tests/Depot.Tests.EndToEnd)
 for PROJECT in ${PROJECTS[*]}
 do
