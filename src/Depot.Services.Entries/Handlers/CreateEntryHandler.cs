@@ -13,6 +13,7 @@ namespace Depot.Services.Entries.Handlers
 {
     public class CreateEntryHandler : ICommandHandler<CreateEntry>
     {
+        
         private readonly IBusClient _busClient;
         private readonly IEntryRepository _repository;
         private readonly IDistributedCache _cache;

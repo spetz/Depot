@@ -1,0 +1,22 @@
+language: csharp
+dist: trusty
+sudo: required
+mono: none
+dotnet: 1.0.1
+branches:
+  only:
+    - master
+    - develop
+before_script:
+  - chmod a+x ./travis-build.sh
+  - chmod a+x ./run-tests.sh
+  - chmod a+x ./after-success.sh
+script:
+  - ./travis-build.sh
+  - ./run-tests.sh
+after_success:
+  - ./after-success.sh
+notifications:
+  email:
+    on_success: never
+    on_failure: always

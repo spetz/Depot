@@ -1,0 +1,45 @@
+version: "2"
+
+services:
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - mongo
+      - rabbitmq
+      - redis      
+    command: rabbitmq:5672
+
+  api:
+    build: ../src/Depot.Api
+    links:
+      - rabbitmq
+      - entries-service
+    ports:
+      - '5000:5000'
+
+  entries-service:
+    build: ../src/Depot.Services.Entries
+    links:
+      - mongo
+      - rabbitmq
+      - redis
+    ports:
+      - '5050:5050'  
+
+  mongo:
+    image: mongo
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - '27017:27017'
+
+  rabbitmq:
+    image: rabbitmq:3.6.5-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
