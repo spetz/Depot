@@ -5,9 +5,9 @@ projects=(Depot.Api Depot.Messages Depot.Services.Entries)
 for project in ${projects[*]}
 do
 	echo ========================================================
-	echo Restoring packages for project: $project
+	echo Building project: $project
 	echo ========================================================
-	dotnet restore $project $source
+	dotnet build $project/$project.csproj
 done
 
 testprojects=(Depot.Tests Depot.Tests.EndToEnd)
@@ -15,7 +15,7 @@ cd ../tests
 for project in ${testprojects[*]}
 do
 	echo ========================================================
-	echo Restoring packages for test project: $project
+	echo Building test project: $project
 	echo ========================================================
-	dotnet restore $project $source
+	dotnet build $project/$project.csproj
 done

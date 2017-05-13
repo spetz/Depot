@@ -1,6 +1,6 @@
 $rootLocation = "$PSScriptRoot/.."
 $source = "-source https://api.nuget.org/v3/index.json --source https://www.myget.org/F/netcoretour/api/v3/index.json --no-cache"
-$projects = @("Depot.Api", "Depot.Services.Entries")
+$projects = @("Depot.Api", "Depot.Messages", "Depot.Services.Entries")
 
 $projects | ForEach-Object {
     Write-Host "========================================================"
