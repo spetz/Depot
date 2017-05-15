@@ -18,6 +18,7 @@ Or simply _dotnet run_ projects separately and make sure that MongoDB, RabbitMQ 
 
 Depot API will be running at [http://localhost:5000](http://localhost:5000) and Entries Service at [http://localhost:5050](http://localhost:5050).
 
+For more information take a look at my [blog post](http://piotrgankiewicz.com/2017/05/15/depot-building-asp-net-core-distributed-application/).
 
 ## Usage
 
