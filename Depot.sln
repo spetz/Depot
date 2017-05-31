@@ -1,0 +1,70 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Depot.Api", "src\Depot.Api\Depot.Api.csproj", "{5E4E2AD3-E295-4E3E-91DA-E681A3907229}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Depot.Messages", "src\Depot.Messages\Depot.Messages.csproj", "{5CAD375E-457C-4FCF-88C5-7FB1164A70C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Depot.Services.Entries", "src\Depot.Services.Entries\Depot.Services.Entries.csproj", "{FDC0AAFD-CA5C-4326-9124-FA8A2362A9E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Depot.Tests", "tests\Depot.Tests\Depot.Tests.csproj", "{591FEF7E-70A1-42BC-AE09-0BB2C03F9A32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Depot.Tests.EndToEnd", "tests\Depot.Tests.EndToEnd\Depot.Tests.EndToEnd.csproj", "{45FA1903-28FB-4682-8B2D-A3507B50B0B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{98A0B189-511B-4DCE-86E7-12E3FC41852C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6D43B600-55DE-4D7C-B806-383D7D2223A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{901B3395-F253-4AFF-A67E-4A9C4B774D5D}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\docker-compose.yaml = scripts\docker-compose.yaml
+		scripts\docker-run.sh = scripts\docker-run.sh
+		scripts\dotnet-build.sh = scripts\dotnet-build.sh
+		scripts\dotnet-restore.ps1 = scripts\dotnet-restore.ps1
+		scripts\dotnet-restore.sh = scripts\dotnet-restore.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{984CB460-309E-420A-AF0F-3AC826808180}"
+	ProjectSection(SolutionItems) = preProject
+		after-success.sh = after-success.sh
+		LICENSE = LICENSE
+		README.md = README.md
+		run-tests.sh = run-tests.sh
+		travis-build.sh = travis-build.sh
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E4E2AD3-E295-4E3E-91DA-E681A3907229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E4E2AD3-E295-4E3E-91DA-E681A3907229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E4E2AD3-E295-4E3E-91DA-E681A3907229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E4E2AD3-E295-4E3E-91DA-E681A3907229}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CAD375E-457C-4FCF-88C5-7FB1164A70C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CAD375E-457C-4FCF-88C5-7FB1164A70C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CAD375E-457C-4FCF-88C5-7FB1164A70C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CAD375E-457C-4FCF-88C5-7FB1164A70C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC0AAFD-CA5C-4326-9124-FA8A2362A9E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC0AAFD-CA5C-4326-9124-FA8A2362A9E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC0AAFD-CA5C-4326-9124-FA8A2362A9E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC0AAFD-CA5C-4326-9124-FA8A2362A9E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{591FEF7E-70A1-42BC-AE09-0BB2C03F9A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{591FEF7E-70A1-42BC-AE09-0BB2C03F9A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{591FEF7E-70A1-42BC-AE09-0BB2C03F9A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{591FEF7E-70A1-42BC-AE09-0BB2C03F9A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45FA1903-28FB-4682-8B2D-A3507B50B0B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45FA1903-28FB-4682-8B2D-A3507B50B0B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45FA1903-28FB-4682-8B2D-A3507B50B0B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45FA1903-28FB-4682-8B2D-A3507B50B0B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5E4E2AD3-E295-4E3E-91DA-E681A3907229} = {98A0B189-511B-4DCE-86E7-12E3FC41852C}
+		{5CAD375E-457C-4FCF-88C5-7FB1164A70C6} = {98A0B189-511B-4DCE-86E7-12E3FC41852C}
+		{FDC0AAFD-CA5C-4326-9124-FA8A2362A9E0} = {98A0B189-511B-4DCE-86E7-12E3FC41852C}
+		{591FEF7E-70A1-42BC-AE09-0BB2C03F9A32} = {6D43B600-55DE-4D7C-B806-383D7D2223A1}
+		{45FA1903-28FB-4682-8B2D-A3507B50B0B0} = {6D43B600-55DE-4D7C-B806-383D7D2223A1}
+	EndGlobalSection
+EndGlobal
